@@ -1,5 +1,6 @@
 package com.bimo.tank;
 
+import java.awt.Color;
 import java.awt.Graphics;
 
 public class Tank {
@@ -24,8 +25,10 @@ public class Tank {
 	}
 	
 	public void myPaint(Graphics g) {
-		// TODO Auto-generated method stub
+		Color c = g.getColor();
+		g.setColor(Color.GREEN);
 		g.fillRect(x, y, width, height);
+		g.setColor(c);
 		move();
 	}
 	

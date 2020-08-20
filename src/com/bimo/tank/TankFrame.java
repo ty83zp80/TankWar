@@ -1,7 +1,9 @@
 package com.bimo.tank;
 
+import java.awt.Color;
 import java.awt.Frame;
 import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
@@ -13,12 +15,15 @@ public class TankFrame extends Frame {
 	 */
 	private static final long serialVersionUID = 1L;
 	Tank tank = new Tank(200,200,50,50,Direction.DOWN,10);
+	Bullet b = new Bullet(221,225,Direction.RIGHT);
+	
+	static final int GAME_WIDTH = 800, GAME_HEIGHT=600;
 	
 	public TankFrame() {
 		setResizable(false);
 		setTitle("Tank War");
 		setVisible(true);
-		setBounds(100, 100, 800, 600);
+		setBounds(100, 100, GAME_WIDTH, GAME_HEIGHT);
 		
 		this.addKeyListener(new MyKeyListener());
 		
@@ -29,12 +34,29 @@ public class TankFrame extends Frame {
 			}
 		});
 	}
+	
+	Image offScreenImage = null;
+	@Override
+	public void update(Graphics g) {
+		if(offScreenImage == null) {
+			offScreenImage = this.createImage(GAME_WIDTH, GAME_HEIGHT);
+		}
+		Graphics gOffScreen = offScreenImage.getGraphics();
+		Color c = gOffScreen.getColor();
+		gOffScreen.setColor(Color.BLACK);
+		gOffScreen.fillRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
+		gOffScreen.setColor(c);
+		paint(gOffScreen);
+		g.drawImage(offScreenImage, 0, 0, null);
+	}
+	
 	@Override
 	public void paint(Graphics g) {
 		
 		tank.myPaint(g);
-		
+		b.paint(g);
 	}
+	
 	
 	class MyKeyListener extends KeyAdapter{
 		
@@ -93,10 +115,22 @@ public class TankFrame extends Frame {
 				tank.setMoving(true);
 			}
 			
-			if(bL) tank.setDir(Direction.LEFT);
-			if(bR) tank.setDir(Direction.RIGHT);
-			if(bU) tank.setDir(Direction.UP);
-			if(bD) tank.setDir(Direction.DOWN);
+			if(bL){
+				tank.setDir(Direction.LEFT);
+				b.setDir(Direction.LEFT);
+			}
+			if(bR) {
+				tank.setDir(Direction.RIGHT);
+				b.setDir(Direction.RIGHT);
+			}
+			if(bU) {
+				tank.setDir(Direction.UP);
+				b.setDir(Direction.UP);
+			}
+			if(bD) {
+				tank.setDir(Direction.DOWN);
+				b.setDir(Direction.DOWN);
+			}
 			
 		}
 	}
