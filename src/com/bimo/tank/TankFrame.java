@@ -8,7 +8,12 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 public class TankFrame extends Frame {
-	int x = 200, y = 200;
+	/**
+	 * Tank War V1.0
+	 */
+	private static final long serialVersionUID = 1L;
+	Tank tank = new Tank(200,200,50,50,Direction.DOWN,10);
+	
 	public TankFrame() {
 		setResizable(false);
 		setTitle("Tank War");
@@ -26,38 +31,35 @@ public class TankFrame extends Frame {
 	}
 	@Override
 	public void paint(Graphics g) {
-		g.fillRect(x, y, 50, 50);
+		
+		tank.myPaint(g);
+		
 	}
 	
 	class MyKeyListener extends KeyAdapter{
-		boolean bU =false,bR= false, bD = false, bL = false;
+		
+		boolean bU = false,bR= false, bD = false, bL = false;
+		
 		@Override
 		public void keyPressed(KeyEvent e) {
-			//x += 200;
 			int key = e.getKeyCode();
 			switch(key) {
 				case KeyEvent.VK_LEFT: 
-					x-=5;
 					bL = true;
-					if(bU == true) {
-						y -= 5;
-					}
 					break;
 				case KeyEvent.VK_RIGHT:
-					x+=5;
-					bR = true;
+					bR = true; 
 					break;
 				case KeyEvent.VK_UP:
-					y -= 5;
 					bU = true;
 					break;
 				case KeyEvent.VK_DOWN:
-					y+=5;
 					bD = true;
 					break;
 				default:
 					break;
 			}
+			setMainTankDirection();
 		}
 
 		@Override
@@ -69,6 +71,7 @@ public class TankFrame extends Frame {
 					break;
 				case KeyEvent.VK_RIGHT:
 					bR = false;
+					
 					break;
 				case KeyEvent.VK_UP:
 					bU = false;
@@ -79,7 +82,23 @@ public class TankFrame extends Frame {
 				default:
 					break;
 			}
+			setMainTankDirection();
 		}
 		
+		public void setMainTankDirection() {
+			if(!bL && !bR && !bU && !bD) {
+				tank.setMoving(false);
+			}
+			else {
+				tank.setMoving(true);
+			}
+			
+			if(bL) tank.setDir(Direction.LEFT);
+			if(bR) tank.setDir(Direction.RIGHT);
+			if(bU) tank.setDir(Direction.UP);
+			if(bD) tank.setDir(Direction.DOWN);
+			
+		}
 	}
+	
 }
