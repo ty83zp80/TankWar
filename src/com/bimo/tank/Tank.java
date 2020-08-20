@@ -25,7 +25,7 @@ public class Tank {
 		this.f = f;
 	}
 	
-	public void myPaint(Graphics g) {
+	public void paint(Graphics g) {
 		Color c = g.getColor();
 		g.setColor(Color.GREEN);
 		g.fillRect(x, y, width, height);
@@ -34,7 +34,6 @@ public class Tank {
 	}
 	
 	private void move() {
-		// TODO Auto-generated method stub
 		if(!moving) return;
 		switch(dir) {
 			case LEFT: 
@@ -67,6 +66,25 @@ public class Tank {
 	}
 	
 	public void fire() {
-		f.bList.add(new Bullet(this.x, this.y,this.dir));
+		int startX = x, startY = y;
+		switch(dir){
+			case LEFT: 
+				startY = y + height / 2 - Bullet.HEIGHT/2;
+				break;
+			case RIGHT: 
+				startX = x + width;
+				startY = y + height / 2 - Bullet.HEIGHT/2;
+				break;
+			case UP: 
+				startX = x + width / 2 - Bullet.WIDTH/2;
+				break;
+			case DOWN:
+				startX = x + width / 2 -  Bullet.WIDTH/2;
+				startY = y + height;
+				break;
+			default:break;
+			
+		}
+		f.bList.add(new Bullet(startX, startY,this.dir,this.f));
 	}
 }

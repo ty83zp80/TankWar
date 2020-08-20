@@ -20,13 +20,13 @@ public class TankFrame extends Frame {
 	public List<Bullet> bList = new ArrayList<>();
 	
 
-	static final int GAME_WIDTH = 800, GAME_HEIGHT=600;
-	
+	public static final int GAME_WIDTH = 800, GAME_HEIGHT=600;
+	public static final int STARTX = 100, STARTY = 100;
 	public TankFrame() {
 		setResizable(false);
 		setTitle("Tank War");
 		setVisible(true);
-		setBounds(100, 100, GAME_WIDTH, GAME_HEIGHT);
+		setBounds(STARTX, STARTY, GAME_WIDTH, GAME_HEIGHT);
 		
 		this.addKeyListener(new MyKeyListener());
 		
@@ -55,11 +55,15 @@ public class TankFrame extends Frame {
 	
 	@Override
 	public void paint(Graphics g) {
-		tank.myPaint(g);
-		for(Bullet b : bList){
-			b.paint(g);
-		}
+		Color c = g.getColor();
+		g.setColor(Color.WHITE);
+		g.drawString("子弹的数量是：" + bList.size(), 10, 50);
+		g.setColor(c);
 		
+		tank.paint(g);
+		for(int i = 0 ; i< bList.size(); i++) {
+			bList.get(i).paint(g);
+		}
 	}
 	
 	
@@ -105,7 +109,7 @@ public class TankFrame extends Frame {
 				case KeyEvent.VK_DOWN:
 					bD = false;
 					break;
-				case KeyEvent.VK_CONTROL:
+				case KeyEvent.VK_SPACE:
 					tank.fire();
 					break;
 				default:
