@@ -11,10 +11,10 @@ public class Tank {
 	private int speed;
 	private int width;
 	private int height;
+	private TankFrame f;
 	
 	private boolean moving = false;
-	
-	public Tank(int x, int y, int width, int height, Direction dir, int speed) {
+	public Tank(int x, int y, int width, int height, Direction dir, int speed, TankFrame f) {
 		super();
 		this.x = x;
 		this.y = y;
@@ -22,6 +22,7 @@ public class Tank {
 		this.speed = speed;
 		this.width = width;
 		this.height = height;
+		this.f = f;
 	}
 	
 	public void myPaint(Graphics g) {
@@ -65,4 +66,7 @@ public class Tank {
 		this.moving = b;
 	}
 	
+	public void fire() {
+		f.bList.add(new Bullet(this.x, this.y,this.dir));
+	}
 }

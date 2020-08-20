@@ -8,15 +8,18 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.ArrayList;
+import java.util.List;
 
 public class TankFrame extends Frame {
 	/**
 	 * Tank War V1.0
 	 */
 	private static final long serialVersionUID = 1L;
-	Tank tank = new Tank(200,200,50,50,Direction.DOWN,10);
-	Bullet b = new Bullet(221,225,Direction.RIGHT);
+	public Tank tank = new Tank(200,200,50,50,Direction.DOWN,10,this);
+	public List<Bullet> bList = new ArrayList<>();
 	
+
 	static final int GAME_WIDTH = 800, GAME_HEIGHT=600;
 	
 	public TankFrame() {
@@ -52,9 +55,11 @@ public class TankFrame extends Frame {
 	
 	@Override
 	public void paint(Graphics g) {
-		
 		tank.myPaint(g);
-		b.paint(g);
+		for(Bullet b : bList){
+			b.paint(g);
+		}
+		
 	}
 	
 	
@@ -93,13 +98,15 @@ public class TankFrame extends Frame {
 					break;
 				case KeyEvent.VK_RIGHT:
 					bR = false;
-					
 					break;
 				case KeyEvent.VK_UP:
 					bU = false;
 					break;
 				case KeyEvent.VK_DOWN:
 					bD = false;
+					break;
+				case KeyEvent.VK_CONTROL:
+					tank.fire();
 					break;
 				default:
 					break;
@@ -117,19 +124,15 @@ public class TankFrame extends Frame {
 			
 			if(bL){
 				tank.setDir(Direction.LEFT);
-				b.setDir(Direction.LEFT);
 			}
 			if(bR) {
 				tank.setDir(Direction.RIGHT);
-				b.setDir(Direction.RIGHT);
 			}
 			if(bU) {
 				tank.setDir(Direction.UP);
-				b.setDir(Direction.UP);
 			}
 			if(bD) {
 				tank.setDir(Direction.DOWN);
-				b.setDir(Direction.DOWN);
 			}
 			
 		}
