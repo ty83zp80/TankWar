@@ -16,7 +16,7 @@ public class TankFrame extends Frame {
 	 * Tank War V1.0
 	 */
 	private static final long serialVersionUID = 1L;
-	public Tank tank = new Tank(200,200,50,50,Direction.DOWN,10,this);
+	public Tank tank = new Tank(200,400,50,50,Direction.UP,10,this);
 	public List<Bullet> bList = new ArrayList<>();
 	public List<Tank> enemyTanks = new ArrayList<>();
 	
@@ -58,6 +58,7 @@ public class TankFrame extends Frame {
 		Color c = g.getColor();
 		g.setColor(Color.WHITE);
 		g.drawString("子弹的数量是：" + bList.size(), 10, 50);
+		g.drawString("敌方坦克的数量是：" + enemyTanks.size(), 10, 70);
 		g.setColor(c);
 		
 		for(int i = 0 ; i<enemyTanks.size(); i++) {
@@ -67,6 +68,13 @@ public class TankFrame extends Frame {
 		
 		for(int i = 0 ; i< bList.size(); i++) {
 			bList.get(i).paint(g);
+		}
+		
+		//碰撞检测
+		for(int i = 0 ; i < bList.size();i++) {
+			for(int j = 0 ;j < enemyTanks.size() ;j++) {
+				bList.get(i).collideWidth(enemyTanks.get(j));
+			}
 		}
 	}
 	

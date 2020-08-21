@@ -14,6 +14,7 @@ public class Tank {
 	private TankFrame f;
 	
 	private boolean moving = false;
+	private boolean alive = true;
 	public Tank(int x, int y, int width, int height, Direction dir, int speed, TankFrame f) {
 		super();
 		this.x = x;
@@ -25,7 +26,40 @@ public class Tank {
 		this.f = f;
 	}
 	
+	public int getX() {
+		return x;
+	}
+
+	public void setX(int x) {
+		this.x = x;
+	}
+
+	public int getY() {
+		return y;
+	}
+
+	public void setY(int y) {
+		this.y = y;
+	}
+
+	public int getWidth() {
+		return width;
+	}
+
+	public void setWidth(int width) {
+		this.width = width;
+	}
+
+	public int getHeight() {
+		return height;
+	}
+
+	public void setHeight(int height) {
+		this.height = height;
+	}
+
 	public void paint(Graphics g) {
+		if(!alive) f.enemyTanks.remove(this);
 		switch(dir) {
 			case LEFT: g.drawImage(ResourceMgr.tankL, x, y, null);break;
 			case RIGHT: g.drawImage(ResourceMgr.tankR, x, y, null);break;
@@ -81,7 +115,7 @@ public class Tank {
 			case UP: 
 				startX = x + width / 2 - Bullet.WIDTH/2;
 				break;
-			case DOWN:
+			case DOWN: 
 				startX = x + width / 2 -  Bullet.WIDTH/2;
 				startY = y + height;
 				break;
@@ -89,5 +123,10 @@ public class Tank {
 			
 		}
 		f.bList.add(new Bullet(startX, startY,this.dir,this.f));
+	}
+
+	public void die() {
+		// TODO Auto-generated method stub
+		this.alive  = false;
 	}
 }

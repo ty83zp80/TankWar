@@ -2,6 +2,7 @@ package com.bimo.tank;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Rectangle;
 
 public class Bullet {
 	private static final int SPEED = 10;
@@ -60,6 +61,20 @@ public class Bullet {
 
 	public void setDir(Direction dir) {
 		this.dir = dir;
+	}
+	
+	public void collideWidth(Tank tank) {
+		Rectangle rectBullet = new Rectangle(this.x, this.y, WIDTH,HEIGHT);
+		Rectangle rectTank = new Rectangle(tank.getX(),tank.getY(),tank.getWidth(),tank.getHeight());
+		if(rectBullet.intersects(rectTank)) {
+			tank.die();
+			this.die();
+		}
+	}
+
+	private void die() {
+		// TODO Auto-generated method stub
+		this.alive = false;
 	}
 	
 	
