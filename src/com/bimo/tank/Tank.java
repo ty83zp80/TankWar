@@ -2,6 +2,7 @@ package com.bimo.tank;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.util.Random;
 
 public class Tank {
 	
@@ -13,13 +14,25 @@ public class Tank {
 	private int height;
 	private TankFrame f;
 	
-	private boolean moving = false;
+	private boolean moving = true;
 	private boolean alive = true;
-	public Tank(int x, int y, int width, int height, Direction dir, int speed, TankFrame f) {
+	private Group group;
+	
+	private Random random = new Random();
+	public Group getGroup() {
+		return group;
+	}
+
+	public void setGroup(Group group) {
+		this.group = group;
+	}
+
+	public Tank(int x, int y, int width, int height, Direction dir,Group group, int speed, TankFrame f) {
 		super();
 		this.x = x;
 		this.y = y;
 		this.dir = dir;
+		this.group = group;
 		this.speed = speed;
 		this.width = width;
 		this.height = height;
@@ -59,7 +72,8 @@ public class Tank {
 	}
 
 	public void paint(Graphics g) {
-		if(!alive) f.enemyTanks.remove(this);
+		if(!alive && group == Group.BAD) f.enemyTanks.remove(this);
+		
 		switch(dir) {
 			case LEFT: g.drawImage(ResourceMgr.tankL, x, y, null);break;
 			case RIGHT: g.drawImage(ResourceMgr.tankR, x, y, null);break;
@@ -87,6 +101,7 @@ public class Tank {
 				break;
 			default : break;
 		}
+		if(random.nextInt(10)>8 && group == Group.BAD) fire();
 	}
 	
 	public Direction getDir() {
@@ -122,7 +137,7 @@ public class Tank {
 			default:break;
 			
 		}
-		f.bList.add(new Bullet(startX, startY,this.dir,this.f));
+		f.bList.add(new Bullet(startX, startY,this.dir,this.group,this.f));
 	}
 
 	public void die() {

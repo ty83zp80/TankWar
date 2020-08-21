@@ -11,12 +11,13 @@ public class Bullet {
 	private Direction dir;
 	private boolean alive = true;
 	private TankFrame f;
-	
-	public Bullet(int x, int y, Direction dir,TankFrame f) {
+	private Group group;
+	public Bullet(int x, int y, Direction dir,Group group,TankFrame f) {
 		super();
 		this.x = x;
 		this.y = y;
 		this.dir = dir;
+		this.group = group;
 		this.f = f;
 	}
 	
@@ -64,12 +65,22 @@ public class Bullet {
 	}
 	
 	public void collideWidth(Tank tank) {
+		if(this.group == tank.getGroup()) return;
+		//TODO: 需要创建一个公用的Rectangle，来分别装在
 		Rectangle rectBullet = new Rectangle(this.x, this.y, WIDTH,HEIGHT);
 		Rectangle rectTank = new Rectangle(tank.getX(),tank.getY(),tank.getWidth(),tank.getHeight());
 		if(rectBullet.intersects(rectTank)) {
 			tank.die();
 			this.die();
 		}
+	}
+
+	public Group getGroup() {
+		return group;
+	}
+
+	public void setGroup(Group group) {
+		this.group = group;
 	}
 
 	private void die() {

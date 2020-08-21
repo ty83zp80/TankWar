@@ -16,12 +16,15 @@ public class TankFrame extends Frame {
 	 * Tank War V1.0
 	 */
 	private static final long serialVersionUID = 1L;
-	public Tank tank = new Tank(200,400,50,50,Direction.UP,10,this);
+	public Tank tank = new Tank(200,400,50,50,Direction.UP,Group.GOOD,3,this);
 	public List<Bullet> bList = new ArrayList<>();
 	public List<Tank> enemyTanks = new ArrayList<>();
 	
 	public static final int GAME_WIDTH = 800, GAME_HEIGHT=600;
 	public static final int STARTX = 100, STARTY = 100;
+	
+	public Explode exp  = new Explode(100,100,this);
+	
 	public TankFrame() {
 		setResizable(false);
 		setTitle("Tank War");
@@ -64,18 +67,24 @@ public class TankFrame extends Frame {
 		for(int i = 0 ; i<enemyTanks.size(); i++) {
 			enemyTanks.get(i).paint(g);
 		}
+		
 		tank.paint(g);
 		
+		exp.paint(g);
 		for(int i = 0 ; i< bList.size(); i++) {
 			bList.get(i).paint(g);
 		}
 		
-		//碰撞检测
+		//敌方坦克碰撞检测
 		for(int i = 0 ; i < bList.size();i++) {
 			for(int j = 0 ;j < enemyTanks.size() ;j++) {
 				bList.get(i).collideWidth(enemyTanks.get(j));
 			}
 		}
+		//我方坦克碰撞检测
+		//for(int i=0 ; i<bList.size(); i++) {
+		//	bList.get(i).collideWidth(tank);
+		//}
 	}
 	
 	
