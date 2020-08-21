@@ -18,8 +18,8 @@ public class TankFrame extends Frame {
 	private static final long serialVersionUID = 1L;
 	public Tank tank = new Tank(200,200,50,50,Direction.DOWN,10,this);
 	public List<Bullet> bList = new ArrayList<>();
+	public List<Tank> enemyTanks = new ArrayList<>();
 	
-
 	public static final int GAME_WIDTH = 800, GAME_HEIGHT=600;
 	public static final int STARTX = 100, STARTY = 100;
 	public TankFrame() {
@@ -60,7 +60,11 @@ public class TankFrame extends Frame {
 		g.drawString("子弹的数量是：" + bList.size(), 10, 50);
 		g.setColor(c);
 		
+		for(int i = 0 ; i<enemyTanks.size(); i++) {
+			enemyTanks.get(i).paint(g);
+		}
 		tank.paint(g);
+		
 		for(int i = 0 ; i< bList.size(); i++) {
 			bList.get(i).paint(g);
 		}

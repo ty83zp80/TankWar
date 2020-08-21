@@ -5,7 +5,7 @@ import java.awt.Graphics;
 
 public class Bullet {
 	private static final int SPEED = 10;
-	public static final int WIDTH = 8, HEIGHT = 8;
+	public static final int WIDTH = ResourceMgr.bulletD.getWidth(), HEIGHT = ResourceMgr.bulletD.getHeight();
 	private int x,y ;
 	private Direction dir;
 	private boolean alive = true;
@@ -23,10 +23,13 @@ public class Bullet {
 		if(!alive) {
 			f.bList.remove(this);
 		}
-		Color c = g.getColor();
-		g.setColor(Color.RED);
-		g.fillOval(x, y, WIDTH, HEIGHT);
-		g.setColor(c);
+		switch(dir) {
+			case LEFT: g.drawImage(ResourceMgr.bulletL, x, y, null);break;
+			case RIGHT: g.drawImage(ResourceMgr.bulletR, x, y, null);break;
+			case DOWN: g.drawImage(ResourceMgr.bulletD, x, y, null);break;
+			case UP: g.drawImage(ResourceMgr.bulletU, x, y, null);break;
+			default : break;
+		}
 		move();
 	}
 	
@@ -46,7 +49,7 @@ public class Bullet {
 				break;
 			default : break;
 		}
-		if(x < 0 || y< 0 || x > TankFrame.GAME_WIDTH  || y> TankFrame.GAME_HEIGHT) {
+		if(x < 0 || y < 0 || x > TankFrame.GAME_WIDTH  || y> TankFrame.GAME_HEIGHT) {
 			alive = false;
 		}
 	}
