@@ -1,0 +1,4 @@
+#configuration
+enemyTankQty=10
+goodFS=com.bimo.tank.FourBulletsFireStrategy
+badFS=com.bimo.tank.DefaultFireStrategy

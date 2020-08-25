@@ -2,6 +2,8 @@ package com.bimo.tank;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Rectangle;
+import java.lang.reflect.InvocationTargetException;
 import java.util.Random;
 
 public class Tank {
@@ -12,13 +14,24 @@ public class Tank {
 	private int speed;
 	private int width;
 	private int height;
-	private TankFrame f;
+	TankFrame f;
 	
 	private boolean moving = true;
 	private boolean alive = true;
 	private Group group;
 	
 	private Random random = new Random();
+	private FireStrategy fs;
+	
+	public Rectangle getRectTank() {
+		return rectTank;
+	}
+
+	public void setRectTank(Rectangle rectTank) {
+		this.rectTank = rectTank;
+	}
+
+	private Rectangle rectTank = new Rectangle();
 	public Group getGroup() {
 		return group;
 	}
@@ -37,6 +50,18 @@ public class Tank {
 		this.width = width;
 		this.height = height;
 		this.f = f;
+		
+		rectTank.x = x;
+		rectTank.y = y;
+		rectTank.width = width;
+		rectTank.height = height;
+		
+		if(group == Group.GOOD) {
+			fs = FourBulletsFireStrategy.INSTANCE;
+		}else {
+			fs = DefaultFireStrategy.INSTANCE;
+		}
+
 	}
 	
 	public int getX() {
@@ -75,10 +100,34 @@ public class Tank {
 		if(!alive && group == Group.BAD) f.enemyTanks.remove(this);
 		
 		switch(dir) {
-			case LEFT: g.drawImage(ResourceMgr.tankL, x, y, null);break;
-			case RIGHT: g.drawImage(ResourceMgr.tankR, x, y, null);break;
-			case DOWN: g.drawImage(ResourceMgr.tankD, x, y, null);break;
-			case UP: g.drawImage(ResourceMgr.tankU, x, y, null);break;
+			case LEFT: 
+				if(group == Group.GOOD) {
+					g.drawImage(ResourceMgr.goodTankL, x, y, null);
+				}else {
+					g.drawImage(ResourceMgr.badTankL, x, y, null);
+				}
+				break;
+			case RIGHT: 
+				if(group == Group.GOOD) {
+					g.drawImage(ResourceMgr.goodTankR, x, y, null);
+				}else {
+					g.drawImage(ResourceMgr.badTankR, x, y, null);
+				}
+				break;
+			case DOWN: 
+				if(group == Group.GOOD) {
+					g.drawImage(ResourceMgr.goodTankD, x, y, null);
+				}else {
+					g.drawImage(ResourceMgr.badTankD, x, y, null);
+				}
+				break;
+			case UP: 
+				if(group == Group.GOOD) {
+					g.drawImage(ResourceMgr.goodTankU, x, y, null);
+				}else {
+					g.drawImage(ResourceMgr.badTankU, x, y, null);
+				}
+				break;
 			default : break;
 		}
 		move();
@@ -89,21 +138,41 @@ public class Tank {
 		switch(dir) {
 			case LEFT: 
 				x-=speed;
+				boundsCheck();
 				break;
 			case RIGHT: 
 				x += speed; 
+				boundsCheck();
 				break;
 			case UP: 
 				y -=speed ;
+				boundsCheck();
 				break;
 			case DOWN: 
 				y += speed; 
+				boundsCheck();
 				break;
 			default : break;
 		}
-		if(random.nextInt(10)>8 && group == Group.BAD) fire();
+		
+		rectTank.x = x;
+		rectTank.y = y;
+		if(this.group == Group.BAD && random.nextInt(10)>8 && group == Group.BAD) fs.fire(this);
+		if(this.group == Group.BAD && random.nextInt(100)>95)
+			randomDirection();
 	}
 	
+	private void boundsCheck() {
+		if(this.x < this.width / 2) x = this.width/2;
+		if(this.y < this.height / 2) 	y = this.height / 2;
+		if(this.x > TankFrame.GAME_WIDTH - this.width - this.width / 2) x = TankFrame.GAME_WIDTH - this.width - this.width / 2;
+		if(this.y > TankFrame.GAME_HEIGHT - this.height - this.height / 2) y = TankFrame.GAME_HEIGHT - this.height - this.height / 2;
+	}
+
+	private void randomDirection() {
+		this.dir = Direction.values()[random.nextInt(4)];
+	}
+
 	public Direction getDir() {
 		return dir;
 	}
@@ -113,31 +182,11 @@ public class Tank {
 	}
 	
 	public void setMoving(boolean b) {
-		// TODO Auto-generated method stub
 		this.moving = b;
 	}
 	
 	public void fire() {
-		int startX = x, startY = y;
-		switch(dir){
-			case LEFT: 
-				startY = y + height / 2 - Bullet.HEIGHT/2;
-				break;
-			case RIGHT: 
-				startX = x + width;
-				startY = y + height / 2 - Bullet.HEIGHT/2;
-				break;
-			case UP: 
-				startX = x + width / 2 - Bullet.WIDTH/2;
-				break;
-			case DOWN: 
-				startX = x + width / 2 -  Bullet.WIDTH/2;
-				startY = y + height;
-				break;
-			default:break;
-			
-		}
-		f.bList.add(new Bullet(startX, startY,this.dir,this.group,this.f));
+		fs.fire(this);
 	}
 
 	public void die() {

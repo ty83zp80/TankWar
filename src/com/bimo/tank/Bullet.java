@@ -12,6 +12,8 @@ public class Bullet {
 	private boolean alive = true;
 	private TankFrame f;
 	private Group group;
+	
+	Rectangle rectBullet = new Rectangle();
 	public Bullet(int x, int y, Direction dir,Group group,TankFrame f) {
 		super();
 		this.x = x;
@@ -19,6 +21,13 @@ public class Bullet {
 		this.dir = dir;
 		this.group = group;
 		this.f = f;
+		
+		rectBullet.x = x;
+		rectBullet.y = y;
+		rectBullet.width = WIDTH;
+		rectBullet.height = HEIGHT;
+		
+		f.bList.add(this);
 	}
 	
 	public void paint(Graphics g) {
@@ -51,6 +60,8 @@ public class Bullet {
 				break;
 			default : break;
 		}
+		rectBullet.x = x;
+		rectBullet.y = y;
 		if(x < 0 || y < 0 || x > TankFrame.GAME_WIDTH  || y> TankFrame.GAME_HEIGHT) {
 			alive = false;
 		}
@@ -67,11 +78,13 @@ public class Bullet {
 	public void collideWidth(Tank tank) {
 		if(this.group == tank.getGroup()) return;
 		//TODO: 需要创建一个公用的Rectangle，来分别装在
-		Rectangle rectBullet = new Rectangle(this.x, this.y, WIDTH,HEIGHT);
-		Rectangle rectTank = new Rectangle(tank.getX(),tank.getY(),tank.getWidth(),tank.getHeight());
+		Rectangle rectTank = tank.getRectTank();
 		if(rectBullet.intersects(rectTank)) {
 			tank.die();
 			this.die();
+			int eX = tank.getX() + tank.getWidth() / 2 - Explode.WIDTH / 2;
+			int eY = tank.getY() + tank.getHeight() / 2 - Explode.HEIGHT / 2;
+			f.exp.add(new Explode(eX,eY,f));
 		}
 	}
 

@@ -15,6 +15,7 @@ public class TankFrame extends Frame {
 	/**
 	 * Tank War V1.0
 	 */
+	
 	private static final long serialVersionUID = 1L;
 	public Tank tank = new Tank(200,400,50,50,Direction.UP,Group.GOOD,3,this);
 	public List<Bullet> bList = new ArrayList<>();
@@ -23,13 +24,15 @@ public class TankFrame extends Frame {
 	public static final int GAME_WIDTH = 800, GAME_HEIGHT=600;
 	public static final int STARTX = 100, STARTY = 100;
 	
-	public Explode exp  = new Explode(100,100,this);
+	public List<Explode> exp  = new ArrayList<>();
 	
 	public TankFrame() {
+		//setBounds(STARTX, STARTY, GAME_WIDTH, GAME_HEIGHT);
+		setSize(GAME_WIDTH,GAME_HEIGHT);
 		setResizable(false);
 		setTitle("Tank War");
 		setVisible(true);
-		setBounds(STARTX, STARTY, GAME_WIDTH, GAME_HEIGHT);
+		
 		
 		this.addKeyListener(new MyKeyListener());
 		
@@ -70,7 +73,10 @@ public class TankFrame extends Frame {
 		
 		tank.paint(g);
 		
-		exp.paint(g);
+		for(int i = 0 ; i < exp.size(); i++) {
+			exp.get(i).paint(g);
+		}
+		
 		for(int i = 0 ; i< bList.size(); i++) {
 			bList.get(i).paint(g);
 		}
