@@ -11,6 +11,13 @@ import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.bimo.tank.factory.BaseBullet;
+import com.bimo.tank.factory.BaseExplode;
+import com.bimo.tank.factory.BaseTank;
+import com.bimo.tank.factory.DefaultFactory;
+import com.bimo.tank.factory.GameFactory;
+import com.bimo.tank.factory.RectFactory;
+
 public class TankFrame extends Frame {
 	/**
 	 * Tank War V1.0
@@ -18,14 +25,14 @@ public class TankFrame extends Frame {
 	
 	private static final long serialVersionUID = 1L;
 	public Tank tank = new Tank(200,400,50,50,Direction.UP,Group.GOOD,3,this);
-	public List<Bullet> bList = new ArrayList<>();
-	public List<Tank> enemyTanks = new ArrayList<>();
+	public List<BaseBullet> bList = new ArrayList<>();
+	public List<BaseTank> enemyTanks = new ArrayList<>();
 	
 	public static final int GAME_WIDTH = 800, GAME_HEIGHT=600;
 	public static final int STARTX = 100, STARTY = 100;
 	
-	public List<Explode> exp  = new ArrayList<>();
-	
+	public List<BaseExplode> exp  = new ArrayList<>();
+	public GameFactory gf = new RectFactory();
 	public TankFrame() {
 		//setBounds(STARTX, STARTY, GAME_WIDTH, GAME_HEIGHT);
 		setSize(GAME_WIDTH,GAME_HEIGHT);

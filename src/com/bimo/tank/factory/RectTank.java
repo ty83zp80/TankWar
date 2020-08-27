@@ -1,14 +1,20 @@
-package com.bimo.tank;
+package com.bimo.tank.factory;
 
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
-import java.lang.reflect.InvocationTargetException;
 import java.util.Random;
 
+import com.bimo.tank.DefaultFireStrategy;
+import com.bimo.tank.Direction;
+import com.bimo.tank.FireStrategy;
+import com.bimo.tank.FourBulletsFireStrategy;
+import com.bimo.tank.Group;
+import com.bimo.tank.ResourceMgr;
+import com.bimo.tank.TankFrame;
 import com.bimo.tank.factory.BaseTank;
 
-public class Tank extends BaseTank {
+public class RectTank extends BaseTank {
 	
 	private int x;
 	private int y;
@@ -41,7 +47,7 @@ public class Tank extends BaseTank {
 		this.group = group;
 	}
 
-	public Tank(int x, int y, int width, int height, Direction dir,Group group, int speed, TankFrame f) {
+	public RectTank(int x, int y, int width, int height, Direction dir,Group group, int speed, TankFrame f) {
 		super();
 		this.x = x;
 		this.y = y;
@@ -100,37 +106,10 @@ public class Tank extends BaseTank {
 	public void paint(Graphics g) {
 		if(!alive && group == Group.BAD) f.enemyTanks.remove(this);
 		
-		switch(dir) {
-			case LEFT: 
-				if(group == Group.GOOD) {
-					g.drawImage(ResourceMgr.goodTankL, x, y, null);
-				}else {
-					g.drawImage(ResourceMgr.badTankL, x, y, null);
-				}
-				break;
-			case RIGHT: 
-				if(group == Group.GOOD) {
-					g.drawImage(ResourceMgr.goodTankR, x, y, null);
-				}else {
-					g.drawImage(ResourceMgr.badTankR, x, y, null);
-				}
-				break;
-			case DOWN: 
-				if(group == Group.GOOD) {
-					g.drawImage(ResourceMgr.goodTankD, x, y, null);
-				}else {
-					g.drawImage(ResourceMgr.badTankD, x, y, null);
-				}
-				break;
-			case UP: 
-				if(group == Group.GOOD) {
-					g.drawImage(ResourceMgr.goodTankU, x, y, null);
-				}else {
-					g.drawImage(ResourceMgr.badTankU, x, y, null);
-				}
-				break;
-			default : break;
-		}
+		Color c = g.getColor();
+		g.setColor(group == Group.GOOD ? Color.RED : Color.BLUE);
+		g.fillRect(x, y, 40, 40);
+		g.setColor(c);
 		move();
 	}
 	

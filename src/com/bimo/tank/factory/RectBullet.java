@@ -1,13 +1,18 @@
-package com.bimo.tank;
+package com.bimo.tank.factory;
 
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 
-import com.bimo.tank.factory.BaseBullet;
-import com.bimo.tank.factory.BaseTank;
+import com.bimo.tank.Direction;
+import com.bimo.tank.Explode;
+import com.bimo.tank.Group;
+import com.bimo.tank.ResourceMgr;
+import com.bimo.tank.Tank;
+import com.bimo.tank.TankFrame;
 
-public class Bullet extends BaseBullet {
+public class RectBullet extends BaseBullet {
+
 	private static final int SPEED = 10;
 	public static final int WIDTH = ResourceMgr.bulletD.getWidth(), HEIGHT = ResourceMgr.bulletD.getHeight();
 	private int x,y ;
@@ -17,8 +22,7 @@ public class Bullet extends BaseBullet {
 	private Group group;
 	
 	Rectangle rectBullet = new Rectangle();
-	public Bullet(int x, int y, Direction dir,Group group,TankFrame f) {
-		super();
+	public RectBullet(int x, int y, Direction dir,Group group,TankFrame f) {
 		this.x = x;
 		this.y = y;
 		this.dir = dir;
@@ -32,21 +36,21 @@ public class Bullet extends BaseBullet {
 		
 		f.bList.add(this);
 	}
-	
+
+	@Override
 	public void paint(Graphics g) {
+		// TODO Auto-generated method stub
 		if(!alive) {
 			f.bList.remove(this);
 		}
-		switch(dir) {
-			case LEFT: g.drawImage(ResourceMgr.bulletL, x, y, null);break;
-			case RIGHT: g.drawImage(ResourceMgr.bulletR, x, y, null);break;
-			case DOWN: g.drawImage(ResourceMgr.bulletD, x, y, null);break;
-			case UP: g.drawImage(ResourceMgr.bulletU, x, y, null);break;
-			default : break;
-		}
+		
+		Color c = g.getColor();
+		g.setColor(Color.YELLOW);
+		g.fillRect(x, y, 10, 10);
+		g.setColor(c);
 		move();
 	}
-	
+
 	public void move() {
 		switch(dir) {
 			case LEFT: 
@@ -70,15 +74,9 @@ public class Bullet extends BaseBullet {
 		}
 	}
 
-	public Direction getDir() {
-		return dir;
-	}
-
-	public void setDir(Direction dir) {
-		this.dir = dir;
-	}
 	@Override
 	public void collideWidth(BaseTank tank) {
+		// TODO Auto-generated method stub
 		if(this.group == tank.getGroup()) return;
 		//TODO: 需要创建一个公用的Rectangle，来分别装在
 		Rectangle rectTank = tank.getRectTank();
@@ -91,19 +89,9 @@ public class Bullet extends BaseBullet {
 		}
 	}
 
-	public Group getGroup() {
-		return group;
-	}
-
-	public void setGroup(Group group) {
-		this.group = group;
-	}
-
 	private void die() {
 		// TODO Auto-generated method stub
 		this.alive = false;
 	}
 
-	
-	
 }

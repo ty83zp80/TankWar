@@ -2,7 +2,9 @@ package com.bimo.tank;
 
 import java.awt.Graphics;
 
-public class Explode {
+import com.bimo.tank.factory.BaseExplode;
+
+public class Explode extends BaseExplode {
 
 	public static int WIDTH = ResourceMgr.explodes[0].getWidth();
 	public static int HEIGHT = ResourceMgr.explodes[0].getHeight();
