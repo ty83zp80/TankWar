@@ -4,13 +4,13 @@ import java.awt.Graphics;
 import java.awt.Rectangle;
 
 import com.bimo.tank.Direction;
+import com.bimo.tank.GameModel;
 import com.bimo.tank.Group;
 import com.bimo.tank.TankFrame;
 
 public abstract class BaseTank {
 
-	public TankFrame f;
-
+	public GameModel gm;
 	public abstract int getX();
 
 	public abstract int getWidth();
@@ -28,5 +28,10 @@ public abstract class BaseTank {
 	public abstract void die();
 
 	public abstract void paint(Graphics g);
+	public abstract void fire();
+
+	public abstract void setMoving(boolean b);
+
+	public abstract void setDir(Direction right);
 
 }

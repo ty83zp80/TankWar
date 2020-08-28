@@ -9,6 +9,7 @@ import com.bimo.tank.DefaultFireStrategy;
 import com.bimo.tank.Direction;
 import com.bimo.tank.FireStrategy;
 import com.bimo.tank.FourBulletsFireStrategy;
+import com.bimo.tank.GameModel;
 import com.bimo.tank.Group;
 import com.bimo.tank.ResourceMgr;
 import com.bimo.tank.TankFrame;
@@ -47,7 +48,7 @@ public class RectTank extends BaseTank {
 		this.group = group;
 	}
 
-	public RectTank(int x, int y, int width, int height, Direction dir,Group group, int speed, TankFrame f) {
+	public RectTank(int x, int y, int width, int height, Direction dir,Group group, int speed, GameModel gm) {
 		super();
 		this.x = x;
 		this.y = y;
@@ -56,7 +57,7 @@ public class RectTank extends BaseTank {
 		this.speed = speed;
 		this.width = width;
 		this.height = height;
-		this.f = f;
+		this.gm = gm;
 		
 		rectTank.x = x;
 		rectTank.y = y;
@@ -104,7 +105,7 @@ public class RectTank extends BaseTank {
 	}
 	@Override
 	public void paint(Graphics g) {
-		if(!alive && group == Group.BAD) f.enemyTanks.remove(this);
+		if(!alive && group == Group.BAD) gm.enemyTanks.remove(this);
 		
 		Color c = g.getColor();
 		g.setColor(group == Group.GOOD ? Color.RED : Color.BLUE);
@@ -156,15 +157,15 @@ public class RectTank extends BaseTank {
 	public Direction getDir() {
 		return dir;
 	}
-	
+	@Override
 	public void setDir(Direction dir) {
 		this.dir = dir;
 	}
-	
+	@Override
 	public void setMoving(boolean b) {
 		this.moving = b;
 	}
-	
+	@Override
 	public void fire() {
 		fs.fire(this);
 	}

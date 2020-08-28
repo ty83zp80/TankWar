@@ -13,29 +13,29 @@ public class Bullet extends BaseBullet {
 	private int x,y ;
 	private Direction dir;
 	private boolean alive = true;
-	private TankFrame f;
+	GameModel gm;
 	private Group group;
 	
 	Rectangle rectBullet = new Rectangle();
-	public Bullet(int x, int y, Direction dir,Group group,TankFrame f) {
+	public Bullet(int x, int y, Direction dir,Group group,GameModel gm) {
 		super();
 		this.x = x;
 		this.y = y;
 		this.dir = dir;
 		this.group = group;
-		this.f = f;
+		this.gm = gm;
 		
 		rectBullet.x = x;
 		rectBullet.y = y;
 		rectBullet.width = WIDTH;
 		rectBullet.height = HEIGHT;
 		
-		f.bList.add(this);
+		gm.bList.add(this);
 	}
 	
 	public void paint(Graphics g) {
 		if(!alive) {
-			f.bList.remove(this);
+			gm.bList.remove(this);
 		}
 		switch(dir) {
 			case LEFT: g.drawImage(ResourceMgr.bulletL, x, y, null);break;
@@ -87,7 +87,7 @@ public class Bullet extends BaseBullet {
 			this.die();
 			int eX = tank.getX() + tank.getWidth() / 2 - Explode.WIDTH / 2;
 			int eY = tank.getY() + tank.getHeight() / 2 - Explode.HEIGHT / 2;
-			f.exp.add(f.gf.createExplode(eX, eY, f));
+			gm.exp.add(gm.gf.createExplode(eX, eY, gm));
 		}
 	}
 

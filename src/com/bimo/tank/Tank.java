@@ -23,7 +23,6 @@ public class Tank extends BaseTank {
 	
 	private Random random = new Random();
 	private FireStrategy fs;
-	
 	public Rectangle getRectTank() {
 		return rectTank;
 	}
@@ -41,7 +40,7 @@ public class Tank extends BaseTank {
 		this.group = group;
 	}
 
-	public Tank(int x, int y, int width, int height, Direction dir,Group group, int speed, TankFrame f) {
+	public Tank(int x, int y, int width, int height, Direction dir,Group group, int speed, GameModel gm) {
 		super();
 		this.x = x;
 		this.y = y;
@@ -50,7 +49,7 @@ public class Tank extends BaseTank {
 		this.speed = speed;
 		this.width = width;
 		this.height = height;
-		this.f = f;
+		this.gm = gm;
 		
 		rectTank.x = x;
 		rectTank.y = y;
@@ -98,7 +97,7 @@ public class Tank extends BaseTank {
 	}
 	@Override
 	public void paint(Graphics g) {
-		if(!alive && group == Group.BAD) f.enemyTanks.remove(this);
+		if(!alive && group == Group.BAD) gm.enemyTanks.remove(this);
 		
 		switch(dir) {
 			case LEFT: 
@@ -177,15 +176,15 @@ public class Tank extends BaseTank {
 	public Direction getDir() {
 		return dir;
 	}
-	
+	@Override
 	public void setDir(Direction dir) {
 		this.dir = dir;
 	}
-	
+	@Override
 	public void setMoving(boolean b) {
 		this.moving = b;
 	}
-	
+	@Override
 	public void fire() {
 		fs.fire(this);
 	}

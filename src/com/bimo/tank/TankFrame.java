@@ -8,31 +8,16 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.util.ArrayList;
-import java.util.List;
-
-import com.bimo.tank.factory.BaseBullet;
-import com.bimo.tank.factory.BaseExplode;
-import com.bimo.tank.factory.BaseTank;
-import com.bimo.tank.factory.DefaultFactory;
-import com.bimo.tank.factory.GameFactory;
-import com.bimo.tank.factory.RectFactory;
 
 public class TankFrame extends Frame {
 	/**
 	 * Tank War V1.0
 	 */
 	
-	private static final long serialVersionUID = 1L;
-	public Tank tank = new Tank(200,400,50,50,Direction.UP,Group.GOOD,3,this);
-	public List<BaseBullet> bList = new ArrayList<>();
-	public List<BaseTank> enemyTanks = new ArrayList<>();
-	
 	public static final int GAME_WIDTH = 800, GAME_HEIGHT=600;
 	public static final int STARTX = 100, STARTY = 100;
 	
-	public List<BaseExplode> exp  = new ArrayList<>();
-	public GameFactory gf = new RectFactory();
+	GameModel gm = new GameModel();	
 	public TankFrame() {
 		//setBounds(STARTX, STARTY, GAME_WIDTH, GAME_HEIGHT);
 		setSize(GAME_WIDTH,GAME_HEIGHT);
@@ -68,36 +53,7 @@ public class TankFrame extends Frame {
 	
 	@Override
 	public void paint(Graphics g) {
-		Color c = g.getColor();
-		g.setColor(Color.WHITE);
-		g.drawString("子弹的数量是：" + bList.size(), 10, 50);
-		g.drawString("敌方坦克的数量是：" + enemyTanks.size(), 10, 70);
-		g.setColor(c);
-		
-		for(int i = 0 ; i<enemyTanks.size(); i++) {
-			enemyTanks.get(i).paint(g);
-		}
-		
-		tank.paint(g);
-		
-		for(int i = 0 ; i < exp.size(); i++) {
-			exp.get(i).paint(g);
-		}
-		
-		for(int i = 0 ; i< bList.size(); i++) {
-			bList.get(i).paint(g);
-		}
-		
-		//敌方坦克碰撞检测
-		for(int i = 0 ; i < bList.size();i++) {
-			for(int j = 0 ;j < enemyTanks.size() ;j++) {
-				bList.get(i).collideWidth(enemyTanks.get(j));
-			}
-		}
-		//我方坦克碰撞检测
-		//for(int i=0 ; i<bList.size(); i++) {
-		//	bList.get(i).collideWidth(tank);
-		//}
+		gm.paint(g);
 	}
 	
 	
@@ -144,7 +100,7 @@ public class TankFrame extends Frame {
 					bD = false;
 					break;
 				case KeyEvent.VK_SPACE:
-					tank.fire();
+					gm.getMainTank().fire();
 					break;
 				default:
 					break;
@@ -154,23 +110,23 @@ public class TankFrame extends Frame {
 		
 		public void setMainTankDirection() {
 			if(!bL && !bR && !bU && !bD) {
-				tank.setMoving(false);
+				gm.getMainTank().setMoving(false);
 			}
 			else {
-				tank.setMoving(true);
+				gm.getMainTank().setMoving(true);
 			}
 			
 			if(bL){
-				tank.setDir(Direction.LEFT);
+				gm.getMainTank().setDir(Direction.LEFT);
 			}
 			if(bR) {
-				tank.setDir(Direction.RIGHT);
+				gm.getMainTank().setDir(Direction.RIGHT);
 			}
 			if(bU) {
-				tank.setDir(Direction.UP);
+				gm.getMainTank().setDir(Direction.UP);
 			}
 			if(bD) {
-				tank.setDir(Direction.DOWN);
+				gm.getMainTank().setDir(Direction.DOWN);
 			}
 			
 		}

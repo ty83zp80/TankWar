@@ -3,6 +3,7 @@ package com.bimo.tank.factory;
 import java.awt.Color;
 import java.awt.Graphics;
 
+import com.bimo.tank.GameModel;
 import com.bimo.tank.TankFrame;
 
 public class RectExplode extends BaseExplode {
@@ -12,13 +13,13 @@ public class RectExplode extends BaseExplode {
 	
 	private boolean alive = true;
 	
-	private TankFrame f;
+	private GameModel gm;
 
 	private int step = 1;
-	public RectExplode(int x, int y, TankFrame f) {
+	public RectExplode(int x, int y, GameModel gm) {
 		this.x= x;
 		this.y = y;
-		this.f = f;
+		this.gm = gm;
 	}
 
 	@Override
@@ -30,7 +31,7 @@ public class RectExplode extends BaseExplode {
 		step++;
 		
 		if(step >= 5) {
-			f.exp.remove(this);
+			gm.exp.remove(this);
 		}
 		
 		g.setColor(c);

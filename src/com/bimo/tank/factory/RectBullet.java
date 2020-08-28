@@ -6,6 +6,7 @@ import java.awt.Rectangle;
 
 import com.bimo.tank.Direction;
 import com.bimo.tank.Explode;
+import com.bimo.tank.GameModel;
 import com.bimo.tank.Group;
 import com.bimo.tank.ResourceMgr;
 import com.bimo.tank.Tank;
@@ -18,30 +19,30 @@ public class RectBullet extends BaseBullet {
 	private int x,y ;
 	private Direction dir;
 	private boolean alive = true;
-	private TankFrame f;
+	private GameModel gm;
 	private Group group;
 	
 	Rectangle rectBullet = new Rectangle();
-	public RectBullet(int x, int y, Direction dir,Group group,TankFrame f) {
+	public RectBullet(int x, int y, Direction dir,Group group,GameModel gm) {
 		this.x = x;
 		this.y = y;
 		this.dir = dir;
 		this.group = group;
-		this.f = f;
+		this.gm = gm;
 		
 		rectBullet.x = x;
 		rectBullet.y = y;
 		rectBullet.width = WIDTH;
 		rectBullet.height = HEIGHT;
 		
-		f.bList.add(this);
+		gm.bList.add(this);
 	}
 
 	@Override
 	public void paint(Graphics g) {
 		// TODO Auto-generated method stub
 		if(!alive) {
-			f.bList.remove(this);
+			gm.bList.remove(this);
 		}
 		
 		Color c = g.getColor();
@@ -85,7 +86,7 @@ public class RectBullet extends BaseBullet {
 			this.die();
 			int eX = tank.getX() + tank.getWidth() / 2 - Explode.WIDTH / 2;
 			int eY = tank.getY() + tank.getHeight() / 2 - Explode.HEIGHT / 2;
-			f.exp.add(f.gf.createExplode(eX, eY, f));
+			gm.exp.add(gm.gf.createExplode(eX, eY, gm));
 		}
 	}
 
