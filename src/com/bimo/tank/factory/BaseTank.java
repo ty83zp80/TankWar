@@ -5,12 +5,12 @@ import java.awt.Rectangle;
 
 import com.bimo.tank.Direction;
 import com.bimo.tank.GameModel;
+import com.bimo.tank.GameObject;
 import com.bimo.tank.Group;
 import com.bimo.tank.TankFrame;
 
-public abstract class BaseTank {
+public abstract class BaseTank extends GameObject {
 
-	public GameModel gm;
 	public abstract int getX();
 
 	public abstract int getWidth();

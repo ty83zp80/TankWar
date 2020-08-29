@@ -12,7 +12,7 @@ public enum FourBulletsFireStrategy implements FireStrategy{
 		Direction[] dirs = Direction.values();
 		for(Direction dir : dirs) {
 			//new Bullet(startX, startY,dir,t.getGroup(),t.f);
-			t.gm.gf.createBullet(startX, startY, dir,t.getGroup(),t.gm);
+			GameModel.gf.createBullet(startX, startY, dir,t.getGroup());
 		}
 	}
 }

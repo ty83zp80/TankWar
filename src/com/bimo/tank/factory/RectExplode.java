@@ -12,14 +12,13 @@ public class RectExplode extends BaseExplode {
 	private int y;
 	
 	private boolean alive = true;
-	
-	private GameModel gm;
+
 
 	private int step = 1;
-	public RectExplode(int x, int y, GameModel gm) {
+	public RectExplode(int x, int y) {
 		this.x= x;
 		this.y = y;
-		this.gm = gm;
+		GameModel.getInstance().add(this);
 	}
 
 	@Override
@@ -31,7 +30,7 @@ public class RectExplode extends BaseExplode {
 		step++;
 		
 		if(step >= 5) {
-			gm.exp.remove(this);
+			GameModel.getInstance().remove(this);
 		}
 		
 		g.setColor(c);

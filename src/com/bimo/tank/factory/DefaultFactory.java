@@ -15,22 +15,21 @@ public class DefaultFactory extends GameFactory {
 	}
 
 	@Override
-	public BaseBullet createBullet(int x, int y, Direction dir, Group group, GameModel gm) {
+	public BaseBullet createBullet(int x, int y, Direction dir, Group group) {
 		// TODO Auto-generated method stub
-		return new Bullet(x,y,dir,group,gm);
+		return new Bullet(x,y,dir,group);
 	}
 
 	@Override
-	public BaseTank createTank(int x, int y, int width, int height, Direction dir, Group group, int speed,
-			GameModel gm) {
+	public BaseTank createTank(int x, int y, int width, int height, Direction dir, Group group, int speed) {
 		// TODO Auto-generated method stub
-		return new Tank(x,y,width,height,dir,group,speed,gm);
+		return new Tank(x,y,width,height,dir,group,speed);
 	}
 
 	@Override
-	public BaseExplode createExplode(int x, int y, GameModel gm) {
+	public BaseExplode createExplode(int x, int y) {
 		// TODO Auto-generated method stub
-		return new Explode(x,y,gm);
+		return new Explode(x,y);
 	}
 
 

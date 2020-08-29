@@ -48,7 +48,7 @@ public class RectTank extends BaseTank {
 		this.group = group;
 	}
 
-	public RectTank(int x, int y, int width, int height, Direction dir,Group group, int speed, GameModel gm) {
+	public RectTank(int x, int y, int width, int height, Direction dir,Group group, int speed) {
 		super();
 		this.x = x;
 		this.y = y;
@@ -57,7 +57,6 @@ public class RectTank extends BaseTank {
 		this.speed = speed;
 		this.width = width;
 		this.height = height;
-		this.gm = gm;
 		
 		rectTank.x = x;
 		rectTank.y = y;
@@ -69,7 +68,7 @@ public class RectTank extends BaseTank {
 		}else {
 			fs = DefaultFireStrategy.INSTANCE;
 		}
-
+		GameModel.getInstance().add(this);
 	}
 	
 	public int getX() {
@@ -105,7 +104,7 @@ public class RectTank extends BaseTank {
 	}
 	@Override
 	public void paint(Graphics g) {
-		if(!alive && group == Group.BAD) gm.enemyTanks.remove(this);
+		if(!alive && group == Group.BAD) GameModel.getInstance().remove(this);
 		
 		Color c = g.getColor();
 		g.setColor(group == Group.GOOD ? Color.RED : Color.BLUE);

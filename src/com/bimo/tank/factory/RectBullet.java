@@ -19,30 +19,28 @@ public class RectBullet extends BaseBullet {
 	private int x,y ;
 	private Direction dir;
 	private boolean alive = true;
-	private GameModel gm;
 	private Group group;
 	
 	Rectangle rectBullet = new Rectangle();
-	public RectBullet(int x, int y, Direction dir,Group group,GameModel gm) {
+	public RectBullet(int x, int y, Direction dir,Group group) {
 		this.x = x;
 		this.y = y;
 		this.dir = dir;
 		this.group = group;
-		this.gm = gm;
 		
 		rectBullet.x = x;
 		rectBullet.y = y;
 		rectBullet.width = WIDTH;
 		rectBullet.height = HEIGHT;
 		
-		gm.bList.add(this);
+		GameModel.getInstance().add(this);
 	}
 
 	@Override
 	public void paint(Graphics g) {
 		// TODO Auto-generated method stub
 		if(!alive) {
-			gm.bList.remove(this);
+			GameModel.getInstance().remove(this);
 		}
 		
 		Color c = g.getColor();
@@ -76,9 +74,9 @@ public class RectBullet extends BaseBullet {
 	}
 
 	@Override
-	public void collideWidth(BaseTank tank) {
+	public boolean collideWidth(BaseTank tank) {
 		// TODO Auto-generated method stub
-		if(this.group == tank.getGroup()) return;
+		if(this.group == tank.getGroup()) return false;
 		//TODO: 需要创建一个公用的Rectangle，来分别装在
 		Rectangle rectTank = tank.getRectTank();
 		if(rectBullet.intersects(rectTank)) {
@@ -86,8 +84,10 @@ public class RectBullet extends BaseBullet {
 			this.die();
 			int eX = tank.getX() + tank.getWidth() / 2 - Explode.WIDTH / 2;
 			int eY = tank.getY() + tank.getHeight() / 2 - Explode.HEIGHT / 2;
-			gm.exp.add(gm.gf.createExplode(eX, eY, gm));
+			GameModel.getInstance().add(GameModel.gf.createExplode(eX, eY));
+			return true;
 		}
+		return false;
 	}
 
 	private void die() {

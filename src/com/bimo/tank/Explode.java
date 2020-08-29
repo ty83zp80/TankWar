@@ -9,20 +9,17 @@ public class Explode extends BaseExplode {
 	public static int WIDTH = ResourceMgr.explodes[0].getWidth();
 	public static int HEIGHT = ResourceMgr.explodes[0].getHeight();
 	
-	private int x;
-	private int y;
 	
 	private boolean alive = true;
 	
 	private TankFrame f;
 
 	private int step = 1;
-	GameModel gm;
-	public Explode(int x, int y, GameModel gm) {
+	public Explode(int x, int y) {
 		super();
 		this.x = x;
 		this.y = y;
-		this.gm = gm;
+		GameModel.getInstance().add(this);
 	}
 	
 	public void paint(Graphics g) {
@@ -30,7 +27,7 @@ public class Explode extends BaseExplode {
 		if(step >= ResourceMgr.explodes.length) {
 			alive = false;
 			step = 0;
-			gm.exp.remove(this);
+			GameModel.getInstance().remove(this);
 		}
 	}
 	
